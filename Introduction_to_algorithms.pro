@@ -16,9 +16,9 @@ CONFIG+=no_keywords
 
 TEMPLATE = app
 
-
-SOURCES += main.cpp
+SOURCES += test.cpp
 
 HEADERS += \
     heap.h \
-    heapsort.h
+    heapsort.h \
+    catch.hpp
