@@ -11,6 +11,8 @@ QT       -= gui
 TARGET = Introduction_to_algorithms
 CONFIG   += console
 CONFIG   -= app_bundle
+CONFIG+=c++11
+CONFIG+=no_keywords
 
 TEMPLATE = app
 
@@ -18,4 +20,5 @@ TEMPLATE = app
 SOURCES += main.cpp
 
 HEADERS += \
-    heap.h
+    heap.h \
+    heapsort.h

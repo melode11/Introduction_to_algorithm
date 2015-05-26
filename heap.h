@@ -2,107 +2,190 @@
 #define HEAP_H
 #include <utility>
 #include <algorithm>
+#include <cassert>
+#include <memory>
+#include <cstdlib>
 namespace Algo
 {
-template <typename K,typename V>
-class Heap
-{
-public:
-    Heap(std::pair<K,V> const* unordered,size_t n);
-
-    ~Heap();
-
-    const std::pair<K,V>& Max() const;
-private:
-    static size_t Left(size_t i);
-    static size_t Right(size_t i);
-    static size_t Parent(size_t i);
-    void Swap(size_t i,size_t j);
-    void BuildMaxHeap();
-    void MaxHeapify(size_t i);
-    std::pair<K,V> *pairs_;
-    size_t capacity_;
-    size_t size_;
-};
-template <typename K,typename V>
-Heap<K,V>::Heap(std::pair<K,V> const* unordered,size_t n):
-    capacity_(n),
-    size_(n)
-{
-    pairs_ = new std::pair<K,V>[capacity_];
-    std::copy(unordered,unordered+n,pairs_);
-}
-
-template <typename K,typename V>
-Heap<K,V>::~Heap()
-{
-    delete [] pairs_;
-}
-
-template <typename K,typename V>
-size_t Heap<K,V>::Left(size_t i)
-{
-    return i*2 +1;
-}
-
-template <typename K,typename V>
-size_t Heap<K,V>::Right(size_t i)
-{
-    return i*2+2;
-}
-
-template <typename K,typename V>
-size_t Heap<K,V>::Parent(size_t i)
-{
-    return (i-1)/2
-}
-
-template <typename K,typename V>
-void Heap<K,V>::Swap(size_t i,size_t j)
-{
-    std::pair tmp(std::move(pairs_[i]));
-    pairs_[i] = std::move(pairs_[j]);
-    pairs_[j] = std::move(tmp);
-}
-
-template <typename K,typename V>
-void Heap<K,V>::MaxHeapify(size_t i)
-{
-    if(i>(size_/2-1))
+    template <typename T>
+    class Heap
     {
-        return;
-    }
-    if(pairs_[Left(i)].first>pairs_[Right(i)].first)
+    public:
+        Heap(T const* unordered,size_t n);
+
+        ~Heap();
+
+        const T& Max() const;
+
+        T ExtractMax();
+
+        size_t Size() const;
+
+        size_t Capacity() const;
+
+        void ShrinkToFit();
+    private:
+        static size_t Left(size_t i);
+        static size_t Right(size_t i);
+        static size_t Parent(size_t i);
+        void Swap(size_t i,size_t j);
+        void BuildMaxHeap();
+        void MaxHeapify(size_t i);
+        T *buf_;
+        size_t capacity_;
+        size_t size_;
+        std::allocator<T >  allocator_;
+    };
+    template <typename T>
+    Heap<T>::Heap(T const* unordered,size_t n):
+        capacity_(n),
+        size_(n),
+        buf_(NULL)
     {
-        if(pairs_[Left(i)].first>pairs_[i].first)
+        if(n>0)
         {
-            Swap(Left(i),i);
-            MaxHeapify(Left(i));
+            buf_ = allocator_.allocate(n);
+            for(size_t i = 0;i<n;++i)
+            {
+                allocator_.construct(buf_+i,unordered[i]);
+            }
+        }
+        BuildMaxHeap();
+    }
+
+    template <typename T>
+    Heap<T>::~Heap()
+    {
+        for(size_t i =0;i<size_;++i)
+        {
+            allocator_.destroy(buf_+i);
+        }
+        allocator_.deallocate(buf_,capacity_);
+    }
+
+    template <typename T>
+    size_t Heap<T>::Left(size_t i)
+    {
+        return i*2 +1;
+    }
+
+    template <typename T>
+    size_t Heap<T>::Right(size_t i)
+    {
+        return i*2+2;
+    }
+
+    template <typename T>
+    size_t Heap<T>::Parent(size_t i)
+    {
+        assert(i>0);
+        return (i-1)/2;
+    }
+
+    template <typename T>
+    void Heap<T>::Swap(size_t i,size_t j)
+    {
+        T tmp(std::move(buf_[i]));
+        buf_[i] = std::move(buf_[j]);
+        buf_[j] = std::move(tmp);
+    }
+
+    template <typename T>
+    void Heap<T>::MaxHeapify(size_t i)
+    {
+        if(size_<2 || i>(size_/2-1))
+        {
+            return;
+        }
+        size_t l = Left(i),r=Right(i);
+        if(buf_[l]>buf_[r])
+        {
+            if(buf_[l]>buf_[i])
+            {
+                Swap(l,i);
+                MaxHeapify(l);
+            }
+        }
+        else
+        {
+            if(buf_[r]>buf_[i])
+            {
+                Swap(r,i);
+                MaxHeapify(r);
+            }
         }
     }
-    else
+
+    template <typename T>
+    void Heap<T>::BuildMaxHeap()
     {
-        if(pairs_[Right(i)].first>pairs_[i].first)
+        if(size_<=1)
         {
-            Swap(Right(i),i);
-            MaxHeapify(Right(i));
+            return;
+        }
+        for(int i = size_/2-1;i>=0;--i)
+        {
+            MaxHeapify(i);
         }
     }
-}
 
-template <typename K,typename V>
-void Heap<K,V>::BuildMaxHeap()
-{
-    for(size_t i = size_/2-1;i>=0;--i)
+    template <typename T>
+    const T& Heap<T>::Max() const
     {
-        MaxHeapify(i);
+        assert(size_>0);
+        return buf_[0];
     }
-}
 
-template <typename K,typename V>
-const std::pair<K,V>& Heap<K,V>::Max() const
-{
-    return pairs_[0];
-}
+    template <typename T>
+    T Heap<T>::ExtractMax()
+    {
+        assert(size_>0);
+        T tmp(std::move(buf_[0]));
+        --size_;
+        if(size_>0)
+        {
+            buf_[0] = std::move(buf_[size_]);//swap the item behind the last element with root.
+            MaxHeapify(0);
+        }
+        allocator_.destroy(buf_+size_);
+        return tmp;
+    }
+
+    template <typename T>
+    void Heap<T>::ShrinkToFit()
+    {
+        if(size_ > 0)
+        {
+            //buf_ = realloc(buf_,size_*sizeof(T));//check if this is safe
+            T* tmp = allocator_.allocate(size_);
+            for(size_t i = 0;i<size_;++i)
+            {
+                allocator_.construct(tmp+i,std::move(buf_[i]));
+                allocator_.destroy(buf_+i);
+            }
+            allocator_.deallocate(buf_,capacity_);
+            capacity_ = size_;
+            buf_ = tmp;
+        }
+        else
+        {
+            allocator_.deallocate(buf_,capacity_);
+            buf_= NULL;
+            capacity_ = 0;
+        }
+    }
+
+    template <typename T>
+    size_t Heap<T>::Size() const
+    {
+        return size_;
+    }
+
+    template <typename T>
+    size_t Heap<T>::Capacity() const
+    {
+        return capacity_;
+    }
+
 }
 #endif // HEAP_H
