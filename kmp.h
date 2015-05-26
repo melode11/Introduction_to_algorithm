@@ -24,31 +24,46 @@ nextloop:;
     }
 
     template <typename CharT>
+    void GetNextSet(std::basic_string<CharT> const& str,std::vector<int>& nexts)
+    {
+        nexts.resize(str.length());
+        for(size_t len =1;len<=str.length();++len)
+        {
+            nexts[len-1] = len - GetMaxMatch(str.data(),len);
+        }
+    }
+
+    template <typename CharT>
     size_t kmp(std::basic_string<CharT> const& longstr, std::basic_string<CharT> const& shortstr)
     {
-        std::vector<int> nexts(shortstr.length());
-        nexts[0] = 0;
-        for(size_t len =1;len<shortstr.length();++len)
+        if(shortstr.length()>longstr.length())
         {
-            nexts[len] = len - GetMaxMatch(shortstr.data(),len);
+            return longstr.length();
         }
+        std::vector<int> nexts;
+        GetNextSet(shortstr,nexts);
         size_t j,i;
-        for(j = 0,i = 0;i<longstr.length()&&j<shortstr.length();++j,++i)
+        for(j = 0,i = 0;i<longstr.length()&&j<shortstr.length();)
         {
             if(longstr[i] != shortstr[j])
             {
                 i+= nexts[j];
                 j = 0;
             }
+            else
+            {
+                ++j;
+                ++i;
+            }
         }
 
-        if(j == longstr.length())
+        if(j == shortstr.length())
         {
             return i - j;
         }
         else
         {
-            return i;
+            return longstr.length();
         }
     }
 }

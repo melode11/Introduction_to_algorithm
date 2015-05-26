@@ -1,6 +1,7 @@
 #include "heapsort.h"
 #include <iostream>
 #include "catch.hpp"
+#include <algorithm>
 
 TEST_CASE("Heapsort is performed","[heapsort]")
 {
@@ -41,10 +42,7 @@ TEST_CASE("Heapsort is performed","[heapsort]")
         21
     };
 
-    for(size_t i = 0;i<15;++i)
-    {
-        CHECK(data[i] == ordered[i]);
-    }
+    CHECK(std::equal(data,data+15,ordered));
 }
 
 
