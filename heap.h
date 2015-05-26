@@ -34,12 +34,13 @@ namespace Algo
         T *buf_;
         size_t capacity_;
         size_t size_;
-        std::allocator<T >  allocator_;
+        std::allocator<T>  allocator_;
     };
     template <typename T>
     Heap<T>::Heap(T const* unordered,size_t n):
         capacity_(n),
         size_(n),
+        allocator_(),
         buf_(NULL)
     {
         if(n>0)
@@ -98,7 +99,7 @@ namespace Algo
             return;
         }
         size_t l = Left(i),r=Right(i);
-        if(buf_[l]>buf_[r])
+        if( r>=size_ || buf_[l]>buf_[r])
         {
             if(buf_[l]>buf_[i])
             {

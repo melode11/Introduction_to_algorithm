@@ -16,9 +16,13 @@ CONFIG+=no_keywords
 
 TEMPLATE = app
 
-SOURCES += test.cpp
+SOURCES += \
+    kmptest.cpp \
+    heaptest.cpp \
+    test.cpp
 
 HEADERS += \
     heap.h \
     heapsort.h \
-    catch.hpp
+    catch.hpp \
+    kmp.h
