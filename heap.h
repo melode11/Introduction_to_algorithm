@@ -44,9 +44,9 @@ namespace Algo
     };
     template <typename T>
     Heap<T>::Heap(T const* unordered,size_t n):
+        buf_(NULL),
         capacity_(n),
         size_(n),
-        buf_(NULL),
         allocator_()
     {
         if(n>0)
