@@ -1,6 +1,7 @@
 #ifndef AVLTREE
 #define AVLTREE
 #include <utility>
+#include <vector>
 namespace Algo
 {
     template <typename K,typename V>
@@ -12,18 +13,22 @@ namespace Algo
         {
             AVLTreeNode *left;
             AVLTreeNode *right;
-            size_t height;
+            int height;
             T data;
         } Node;
 
-        void RotateLeft(Node* p);
-        void RotateRight(Node* p);
+
         const V& Find(K const& k) const;
         void Insert(T&& t);
         void Insert(const T& t);
     private:
         static void LinkLeft(Node* p,Node* l);
         static void LinkRight(Node* p,Node* r);
+        static int BalanceFactor(Node* p);
+        void RotateLeft(Node* p);
+        void RotateRight(Node* p);
+        void Rebalance(Node* p);
+
         Node* FindParent(Node* root,Node* c);
         Node* root_;
     };
@@ -125,6 +130,47 @@ namespace Algo
             else
             {
                 LinkRight(super,r);
+            }
+        }
+    }
+
+    template <typename K,typename V>
+    int AVLTree<K,V>::BalanceFactor(Node* p)
+    {
+        int l = p->left == NULL?0:p->left->heigth;
+        int r = p->right == NULL? 0: p->right->height;
+        return l-r;
+    }
+
+    template <typename K,typename V>
+    void AVLTree<K,V>::Rebalance(Node* c,std::vector<Node*> const& parents)
+    {
+        int balanceFactor = p->left->height-p->right->height;
+        if(balanceFactor == 2)
+        {
+            Node* l = p->left;
+            int lfactor =l->left->height - l->right->height;
+            if(lfactor == 1)
+            {
+                //single right rotate
+            }
+            else
+            {
+                //double right rotate
+
+            }
+        }
+        else if(balanceFactor == -2)
+        {
+            Node* r = p->right;
+            int rfactor = r->left->height - r->right->height;
+            if(rfactor == -1)
+            {
+                //single left rotate
+            }
+            else
+            {
+                //double left rotate
             }
         }
     }
