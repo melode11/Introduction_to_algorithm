@@ -56,7 +56,7 @@ namespace Algo
     }
 
     template <typename CharT>
-    size_t kmp(std::basic_string<CharT> const& longstr, std::basic_string<CharT> const& shortstr)
+    size_t Kmp(std::basic_string<CharT> const& longstr, std::basic_string<CharT> const& shortstr)
     {
         if(shortstr.length()>longstr.length())
         {
