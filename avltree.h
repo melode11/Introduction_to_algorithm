@@ -137,8 +137,8 @@ namespace Algo
     template <typename K,typename V>
     int AVLTree<K,V>::BalanceFactor(Node* p)
     {
-        int l = p->left == NULL?0:p->left->heigth;
-        int r = p->right == NULL? 0: p->right->height;
+        int l = p->left == NULL?-1:p->left->heigth;
+        int r = p->right == NULL? -1: p->right->height;
         return l-r;
     }
 
