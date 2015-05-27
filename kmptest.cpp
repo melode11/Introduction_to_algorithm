@@ -2,23 +2,13 @@
 #include "catch.hpp"
 #include <algorithm>
 #include <iostream>
-TEST_CASE("kmp get max match","[kmp]")
-{
-    std::string b("ceuxiemceu");
-    CHECK(Algo::GetMaxMatch(b.data(),b.length()) == 3);
-    CHECK(Algo::GetMaxMatch(b.data(),b.length()-1) == 2);
-    CHECK(Algo::GetMaxMatch(b.data(),b.length()-2) == 1);
-    for(int i = 3;i<b.length();++i)
-    {
-        CHECK(Algo::GetMaxMatch(b.data(),b.length()-i) == 0);
-    }
-}
 
-TEST_CASE("kmp get next set","[kmp]")
+
+TEST_CASE("kmp kmp table","[kmp]")
 {
     std::string b("abcdabc");
     std::vector<int> nexts;
-    Algo::GetNextSet(b,nexts);
+    Algo::KmpTable(b,nexts);
     //raw:0,0,0,0,1,2,3
     //len-raw:1,2,3,4,4,4,4
     int expected[] = {1,2,3,4,4,4,4};
@@ -27,7 +17,7 @@ TEST_CASE("kmp get next set","[kmp]")
 
       std::string b2("abcabcd");//size = 10
       nexts.clear();
-      Algo::GetNextSet(b2,nexts);
+      Algo::KmpTable(b2,nexts);
       //0,0,0,1,2,3,0
       //1,2,3,3,3,3,7
       int expected2[] = {1,2,3,3,3,3,7};

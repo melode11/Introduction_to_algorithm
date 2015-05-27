@@ -4,32 +4,54 @@
 #include <vector>
 namespace Algo
 {
-    template <typename CharT>
-    int GetMaxMatch(CharT* substr,size_t len)
-    {
-        int max = 0;
-        for(int i = 0;i<len-1;++i)
-        {
-            for(int j = 0; j<=i;++j)
-            {
-                if(substr[j] != substr[len - 1 - i + j])
-                {
-                    goto nextloop;
-                }
-            }
-            max = i + 1;
-nextloop:;
-        }
-        return max;
-    }
+//    template <typename CharT>
+//    int GetMaxMatch(CharT* substr,size_t len)
+//    {
+//        int max = 0;
+//        for(int i = 0;i<len-1;++i)
+//        {
+//            for(int j = 0; j<=i;++j)
+//            {
+//                if(substr[j] != substr[len - 1 - i + j])
+//                {
+//                    goto nextloop;
+//                }
+//            }
+//            max = i + 1;
+//nextloop:;
+//        }
+//        return max;
+//    }
+
+//    template <typename CharT>
+//    void GetNextSet(std::basic_string<CharT> const& str,std::vector<int>& nexts)
+//    {
+//        nexts.resize(str.length());
+//        for(size_t len =1;len<=str.length();++len)
+//        {
+//            nexts[len-1] = len - GetMaxMatch(str.data(),len);
+//        }
+//    }
 
     template <typename CharT>
-    void GetNextSet(std::basic_string<CharT> const& str,std::vector<int>& nexts)
+    void KmpTable(std::basic_string<CharT> const& str,std::vector<int>& table)
     {
-        nexts.resize(str.length());
-        for(size_t len =1;len<=str.length();++len)
+        table.resize(str.length());
+        table[0] = 1;
+        size_t pos = 1,cnt = 0;
+        while(pos < str.length())
         {
-            nexts[len-1] = len - GetMaxMatch(str.data(),len);
+            if(str[pos] == str[cnt])
+            {
+                table[pos] = pos - cnt;
+                ++cnt;
+            }
+            else
+            {
+                cnt = 0;
+                table[pos] = pos+1;
+            }
+            ++pos;
         }
     }
 
@@ -41,7 +63,7 @@ nextloop:;
             return longstr.length();
         }
         std::vector<int> nexts;
-        GetNextSet(shortstr,nexts);
+        KmpTable(shortstr,nexts);
         size_t j,i;
         for(j = 0,i = 0;i<longstr.length()&&j<shortstr.length();)
         {
