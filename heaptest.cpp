@@ -84,3 +84,21 @@ TEST_CASE("Heap shrink","[heap]")
     CHECK(heap.ExtractMax() == 2);
     CHECK(heap.ExtractMax() == 2);
 }
+
+TEST_CASE("Heap insert","[heap]")
+{
+    int value[] = {4,2,5,4,2};
+    Algo::Heap<int> heap(NULL,0);
+    for(int i = 0;i<5;++i)
+    {
+        heap.Insert(value[i]);
+    }
+    CHECK(heap.ExtractMax() == 5);
+    CHECK(heap.ExtractMax() == 4);
+    heap.ShrinkToFit();
+    CHECK(heap.Size() == 3);
+    CHECK(heap.Capacity() == 3);
+    CHECK(heap.ExtractMax() == 4);
+    CHECK(heap.ExtractMax() == 2);
+    CHECK(heap.ExtractMax() == 2);
+}

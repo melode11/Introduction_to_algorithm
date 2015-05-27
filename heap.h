@@ -19,6 +19,10 @@ namespace Algo
 
         T ExtractMax();
 
+        void Insert(T const& value);
+
+        void Insert(T&& value);
+
         size_t Size() const;
 
         size_t Capacity() const;
@@ -31,6 +35,8 @@ namespace Algo
         void Swap(size_t i,size_t j);
         void BuildMaxHeap();
         void MaxHeapify(size_t i);
+        void BubbleUp(size_t i);
+        void ExpandBy(size_t expand_size);
         T *buf_;
         size_t capacity_;
         size_t size_;
@@ -40,8 +46,8 @@ namespace Algo
     Heap<T>::Heap(T const* unordered,size_t n):
         capacity_(n),
         size_(n),
-        allocator_(),
-        buf_(NULL)
+        buf_(NULL),
+        allocator_()
     {
         if(n>0)
         {
@@ -57,11 +63,14 @@ namespace Algo
     template <typename T>
     Heap<T>::~Heap()
     {
+        if(buf_ != NULL)
+        {
         for(size_t i =0;i<size_;++i)
         {
             allocator_.destroy(buf_+i);
         }
         allocator_.deallocate(buf_,capacity_);
+        }
     }
 
     template <typename T>
@@ -174,6 +183,68 @@ namespace Algo
             buf_= NULL;
             capacity_ = 0;
         }
+    }
+
+    template <typename T>
+    void Heap<T>::BubbleUp(size_t i)
+    {
+        if(i == 0)
+        {
+            return;//no need to bubble up root.
+        }
+        size_t p = Parent(i);
+        if(buf_[i]>buf_[p])
+        {
+            Swap(i,p);
+            BubbleUp(p);
+        }
+    }
+
+    template <typename T>
+    void Heap<T>::ExpandBy(size_t expand_size)
+    {
+        if(buf_==NULL)
+        {
+            buf_=allocator_.allocate(expand_size);
+            capacity_ = expand_size;
+        }
+        else
+        {
+            size_t cap = capacity_ + expand_size;
+            T* tmp = allocator_.allocate(cap);
+            for(size_t i = 0;i<size_;++i)
+            {
+                allocator_.construct(tmp+i,std::move(buf_[i]));
+                allocator_.destroy(buf_+i);
+            }
+            allocator_.deallocate(buf_,capacity_);
+            buf_ = tmp;
+            capacity_ = cap;
+        }
+    }
+
+    template <typename T>
+    void Heap<T>::Insert(T &&value)
+    {
+        if(capacity_ == size_)
+        {
+            ExpandBy(16);
+        }
+        buf_[size_] = std::move(value);
+        ++size_;
+        BubbleUp(size_-1);
+    }
+
+    template <typename T>
+    void Heap<T>::Insert(const T &value)
+    {
+        if(capacity_ == size_)
+        {
+            ExpandBy(16);
+        }
+        buf_[size_] = value;
+        ++size_;
+        BubbleUp(size_-1);
     }
 
     template <typename T>
