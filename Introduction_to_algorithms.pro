@@ -19,10 +19,12 @@ TEMPLATE = app
 SOURCES += \
     kmptest.cpp \
     heaptest.cpp \
-    test.cpp
+    test.cpp \
+    avltest.cpp
 
 HEADERS += \
     heap.h \
     heapsort.h \
     catch.hpp \
-    kmp.h
+    kmp.h \
+    avltree.h

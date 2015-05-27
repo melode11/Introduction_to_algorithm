@@ -65,11 +65,11 @@ namespace Algo
     {
         if(buf_ != NULL)
         {
-        for(size_t i =0;i<size_;++i)
-        {
-            allocator_.destroy(buf_+i);
-        }
-        allocator_.deallocate(buf_,capacity_);
+            for(size_t i =0;i<size_;++i)
+            {
+                allocator_.destroy(buf_+i);
+            }
+            allocator_.deallocate(buf_,capacity_);
         }
     }
 
