@@ -27,7 +27,7 @@ TEST_CASE("Perform mergesort","[mergesort]")
     Algo::mergesort(dataVec);
     bool ordered = true;
     int last = dataVec[0];
-    for(size_t i = 1;i<dataVec.size();++i)
+    for(size_t i = 1;i<15;++i)
     {
         if(dataVec[i]<last)
         {

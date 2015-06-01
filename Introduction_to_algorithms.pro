@@ -29,4 +29,7 @@ HEADERS += \
     catch.hpp \
     kmp.h \
     avltree.h \
-    mergesort.h
+    mergesort.h \
+    densematrix.h \
+    sparsematrix.h \
+    linkedlist.h
