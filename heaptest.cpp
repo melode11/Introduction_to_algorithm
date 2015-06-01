@@ -3,7 +3,7 @@
 #include "catch.hpp"
 #include <algorithm>
 
-TEST_CASE("Heapsort is performed","[heapsort]")
+TEST_CASE("Perform heapsort","[heapsort]")
 {
     int data[] = {
         293

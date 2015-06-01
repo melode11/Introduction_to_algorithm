@@ -20,11 +20,13 @@ SOURCES += \
     kmptest.cpp \
     heaptest.cpp \
     test.cpp \
-    avltest.cpp
+    avltest.cpp \
+    mergesorttest.cpp
 
 HEADERS += \
     heap.h \
     heapsort.h \
     catch.hpp \
     kmp.h \
-    avltree.h
+    avltree.h \
+    mergesort.h
