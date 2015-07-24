@@ -21,7 +21,8 @@ SOURCES += \
     heaptest.cpp \
     test.cpp \
     avltest.cpp \
-    mergesorttest.cpp
+    mergesorttest.cpp \
+    maxsubarraytest.cpp
 
 HEADERS += \
     heap.h \
@@ -32,4 +33,5 @@ HEADERS += \
     mergesort.h \
     densematrix.h \
     sparsematrix.h \
-    linkedlist.h
+    linkedlist.h \
+    maxsubarray.h
