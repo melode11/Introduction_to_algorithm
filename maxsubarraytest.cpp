@@ -32,7 +32,7 @@ TEST_CASE("Find maximum subarray","[maxsubarray]")
     }
     cout<<"s:"<<sum<<endl;
 
-    SubArrayDescriptor<int> desc = MaxSubArray(data,data+15);
+    Algo::SubArrayDescriptor<int> desc = Algo::MaxSubArray(data,data+15);
     CHECK(desc.start == data+4);
     CHECK(desc.end == data+14);
     CHECK(desc.sum == sum);
