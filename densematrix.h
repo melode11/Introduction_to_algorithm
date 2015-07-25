@@ -9,7 +9,7 @@ namespace Algo
     class DenseMatrix
     {
     public:
-        size_t Width()
+        size_t Width() const
         {
             return w_;
         }
