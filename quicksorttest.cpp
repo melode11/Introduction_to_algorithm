@@ -1,5 +1,6 @@
 #include "catch.hpp"
 #include "qsort.h"
+#include <iostream>
 
 TEST_CASE("Perform quick sort","[quicksort]")
 {
@@ -22,6 +23,7 @@ TEST_CASE("Perform quick sort","[quicksort]")
     };
 
     Algo::qsort(data,data+15);
+
     int last = data[0];
     for(size_t i = 1;i<15;++i)
     {

@@ -23,7 +23,8 @@ SOURCES += \
     avltest.cpp \
     mergesorttest.cpp \
     maxsubarraytest.cpp \
-    quicksorttest.cpp
+    quicksorttest.cpp \
+    selectkthvaluetest.cpp
 
 HEADERS += \
     heap.h \
@@ -36,4 +37,5 @@ HEADERS += \
     sparsematrix.h \
     linkedlist.h \
     maxsubarray.h \
-    qsort.h
+    qsort.h \
+    selectkthvalue.h
