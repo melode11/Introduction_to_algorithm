@@ -10,3 +10,5 @@ Implementation of &lt;Introduction to algorithm> book
 * Dense/Sparse matrix
 * Find max sum sub-array in divide-and-conquer strategy.
 * Quick sort
+* An θ(n) k-th value selection algorithm
+* Spiral matrix print
