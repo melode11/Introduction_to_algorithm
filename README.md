@@ -12,3 +12,5 @@ Implementation of &lt;Introduction to algorithm> book
 * Quick sort
 * An θ(n) k-th value selection algorithm
 * Spiral matrix print
+* θ(logn) big exponent algorithm
+* O(1) Febonacci algorithm

@@ -45,3 +45,5 @@ HEADERS += \
     spiralmatrixprint.h \
     bigexponent.h \
     fastfebonacci.h
+
+RESOURCES += README.md
