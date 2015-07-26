@@ -31,7 +31,6 @@ TEST_CASE("Spiral matrix print","[spiralmatrixprint]")
 
     testMatrixWithScale(5,output);
 
-
     int answer[] = {0,0,1,11,10,0,1,2,12,22,21,20,10,11,0,1,2,3,13,23,33,32,31,30,20,10,11,12,22,21,0,1,2,3,4,14,24,34,44,43,42,41,40,30,20,10,11,12,13,23,33,32,31,21,22};
     std::vector<int> answerVec(answer,answer + sizeof(answer)/sizeof(int));
     CHECK(answerVec == output);

@@ -25,7 +25,8 @@ SOURCES += \
     maxsubarraytest.cpp \
     quicksorttest.cpp \
     selectkthvaluetest.cpp \
-    spiralmatrixprinttest.cpp
+    spiralmatrixprinttest.cpp \
+    bigexponenttest.cpp
 
 HEADERS += \
     heap.h \
@@ -40,4 +41,5 @@ HEADERS += \
     maxsubarray.h \
     qsort.h \
     selectkthvalue.h \
-    spiralmatrixprint.h
+    spiralmatrixprint.h \
+    bigexponent.h
