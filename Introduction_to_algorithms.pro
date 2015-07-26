@@ -26,7 +26,8 @@ SOURCES += \
     quicksorttest.cpp \
     selectkthvaluetest.cpp \
     spiralmatrixprinttest.cpp \
-    bigexponenttest.cpp
+    bigexponenttest.cpp \
+    fastfebonaccitest.cpp
 
 HEADERS += \
     heap.h \
@@ -42,4 +43,5 @@ HEADERS += \
     qsort.h \
     selectkthvalue.h \
     spiralmatrixprint.h \
-    bigexponent.h
+    bigexponent.h \
+    fastfebonacci.h
